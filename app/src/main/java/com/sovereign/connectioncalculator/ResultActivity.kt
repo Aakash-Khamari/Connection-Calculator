@@ -19,6 +19,7 @@ class ResultActivity : AppCompatActivity() {
     lateinit var namea: TextView
     lateinit var nameb: TextView
     lateinit var result: TextView
+    lateinit var loveMessage: TextView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +28,10 @@ class ResultActivity : AppCompatActivity() {
 
         namea = findViewById(R.id.tv1)
         nameb = findViewById(R.id.tv2)
+        result = findViewById(R.id.textView)
+        loveMessage = findViewById(R.id.loveMessage)
 
-        back = findViewById(backButton)
+        back = findViewById(R.id.backButton)
         back.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -37,13 +40,23 @@ class ResultActivity : AppCompatActivity() {
         val yourName = intent.getStringExtra("your")
         val partnerName = intent.getStringExtra("partner")
 
-        namea.text= "$yourName"
-        nameb.text ="$partnerName"
+        namea.text = yourName
+        nameb.text = partnerName
 
-        result = findViewById(R.id.textView)
-        val randomNum = Random.nextInt(50,101)
+        val randomNum = Random.nextInt(51, 101)
+        result.text = "$randomNum%"
 
-        result.text=randomNum.toString()+"%"
+        loveMessage.text = getLoveMessage(randomNum)
+    }
 
+    private fun getLoveMessage(percentage: Int): String {
+        return when (percentage) {
+            in 51..60 -> "There's potential here! With some effort, this relationship could blossom beautifully."
+            in 61..70 -> "A promising match! Your connection is strong, keep nurturing it."
+            in 71..80 -> "Great compatibility! You two are well on your way to a harmonious relationship."
+            in 81..90 -> "Fantastic match! Your bond is exceptionally strong and full of love."
+            in 91..100 -> "Perfect pair! Your love is a rare and wonderful thing."
+            else -> "Interesting! Love works in mysterious ways."
+        }
     }
 }
